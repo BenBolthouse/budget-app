@@ -9,9 +9,11 @@ module.exports = {
     password: process.env.DATABASE_PASSWORD,
     user: process.env.DATABASE_USER,
   },
-  express: {
-    host: process.env.EXPRESS_HOST,
-    port: process.env.EXPRESS_PORT,
+  service: {
+    host: process.env.SERVICE_HOST,
+    name: process.env.SERVICE_NAME,
+    port: process.env.SERVICE_PORT,
+    version: process.env.SERVICE_VERSION,
   },
-  isProduction: process.env.ENVIORNMENT === 'production',
+  isProduction: process.env.ENVIRONMENT === 'production',
 };
