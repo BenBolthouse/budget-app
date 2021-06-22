@@ -1,6 +1,6 @@
 const { createLogger, transports, format } = require('winston');
 const morgan = require('morgan');
-require('colors');
+const colors = require('colors');
 
 /**
  * All-purpose console transport logger based on winston.
@@ -8,7 +8,33 @@ require('colors');
 const logger = createLogger({
   format: format.combine(
     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-    format.printf((info) => `${info.timestamp.yellow} ${info.level.cyan}: ${info.message}`),
+    format.printf((info) => {
+      let logLevelText;
+
+      switch (info.level) {
+        case 'debug':
+          logLevelText = info.level.blue;
+          break;
+
+        case 'info':
+          logLevelText = info.level.green;
+          break;
+
+        case 'warn':
+          logLevelText = info.level.yellow;
+          break;
+
+        case 'error':
+          logLevelText = info.level.red;
+          break;
+
+        default:
+          logLevelText = info.level.white;
+          break;
+      }
+
+      return `${info.timestamp.yellow} ${logLevelText}: ${info.message}`;
+    }),
   ),
   transports: [new transports.Console()],
 });
