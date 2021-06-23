@@ -17,7 +17,7 @@ function sequelizeLogger(init) {
 
 module.exports = {
   development: {
-    username: config.database.user,
+    username: config.database.username,
     password: config.database.password,
     database: config.database.name,
     host: config.database.host,
@@ -25,7 +25,7 @@ module.exports = {
     logging: sequelizeLogger(config.sequelize.logging),
   },
   test: {
-    username: config.database.user,
+    username: config.database.username,
     password: config.database.password,
     database: config.database.name,
     host: config.database.host,
@@ -33,7 +33,7 @@ module.exports = {
     logging: sequelizeLogger(config.sequelize.logging),
   },
   production: {
-    username: config.database.user,
+    username: config.database.username,
     password: config.database.password,
     database: config.database.name,
     host: config.database.host,
