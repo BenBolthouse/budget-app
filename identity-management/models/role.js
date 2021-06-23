@@ -1,7 +1,7 @@
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-  class role extends Model {
+  class Role extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  role.init({
+  Role.init({
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
           msg: 'Model Validation: name cannot be null, undefined or an empty string',
         },
         is: {
-          args: /^([A-Z0-9_]){4,24}$/,
+          args: /^([A-Z0-9_]){4,64}$/,
           msg: 'Model Validation: Value for name did not match regex',
         },
       },
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    modelName: 'role',
+    modelName: 'Role',
   });
-  return role;
+  return Role;
 };
