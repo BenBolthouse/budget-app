@@ -63,6 +63,9 @@
       ],
       "prefer-arrow-callback": [
         "off"
+      ],
+      "import/no-extraneous-dependencies": [
+        "off"
       ]
     }
   }

@@ -6,8 +6,11 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const csurf = require('csurf');
 const express = require('express');
+const { expressJsonErrorHandler } = require('@bbolt/http-errors');
 const { httpLogger } = require('./config/logger');
-const controllers = require('./controllers');
+
+const config = require('./config');
+const { indexController, serviceControllers } = require('./controllers');
 
 const app = express();
 
@@ -28,6 +31,11 @@ if (isProduction) {
   app.use(cors);
 }
 
-app.use(controllers);
+app.use(`/api/v${config.service.version}`, serviceControllers);
+
+// Index controller handles last-to-evaluate routes, must be last!
+app.use(indexController);
+
+app.use(expressJsonErrorHandler);
 
 module.exports = app;
