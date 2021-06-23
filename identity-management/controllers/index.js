@@ -25,11 +25,11 @@ serviceControllers.use('/passwords', passwordController);
 
 // Returns details about the service
 indexController.get('/about', (req, res, next) => {
-  return res.json({
+  return res.status(200).json({
     url: `${config.service.schema}://${config.service.host}`,
     name: config.service.name,
     version: config.service.version,
-  }, 200);
+  });
 });
 
 indexController.get('/*', (req, res, next) => {
