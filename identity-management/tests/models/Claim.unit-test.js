@@ -7,7 +7,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
 const { sequelize, Claim } = require('../../models');
-const { setup } = require('../_setup');
+const { setup } = require('../setup');
 
 const { expect } = chai;
 
@@ -26,7 +26,7 @@ describe('Models Unit Test —> Claim', function () {
   });
 
   context('#create({ ... })', function () {
-    it('Creates a new Role testClaim that returns testClaim', async function () {
+    it('Creates a new Claim that returns', async function () {
       // Arrange / Act
       const testClaim = await Claim.create({
         name: 'TEST_CLAIM',
@@ -69,7 +69,7 @@ describe('Models Unit Test —> Claim', function () {
         'legal-chars-b': 'CAN_ACCESS_NUCLEAR_CODES_2',
       };
       const nameInvalidTestCases = {
-        'illegal-chars-a': 'access codes',
+        'illegal-chars-a': 'ACCESS CODES',
         'illegal-chars-b': 'access_codes',
         'illegal-chars-c': 'access-codes-2',
         'illegal-chars-d': 'access$codes$2',
@@ -92,46 +92,46 @@ describe('Models Unit Test —> Claim', function () {
     });
   });
 
-  // context('#create({ description, ... })', function () {
-  //   it('Allows description to be undefined or null but not an empty string', async function () {
-  //     // Arrange
-  //     const errorMessage = 'Model Validation: description cannot be an empty string';
-  //     const testRoleUndefinedDescription = {
-  //       name: 'LOCAL_ADMIN',
-  //       description: undefined,
-  //     };
-  //     const testRoleNullDescription = {
-  //       name: 'LOCAL_ADMIN',
-  //       description: null,
-  //     };
-  //     const testRoleEmptyStringDescription = {
-  //       name: 'LOCAL_ADMIN',
-  //       description: '',
-  //     };
+  context('#create({ description, ... })', function () {
+    it('Allows description to be undefined or null but not an empty string', async function () {
+      // Arrange
+      const errorMessage = 'Model Validation: description cannot be an empty string';
+      const testClaimUndefinedDescription = {
+        name: 'CAN_ACCESS_NUCLEAR_CODES',
+        description: undefined,
+      };
+      const testClaimNullDescription = {
+        name: 'CAN_ACCESS_NUCLEAR_CODES',
+        description: null,
+      };
+      const testClaimEmptyStringDescription = {
+        name: 'CAN_ACCESS_NUCLEAR_CODES',
+        description: '',
+      };
 
-  //     // Act / Assert
-  //     return Promise.all([
-  //       expect(Claim.create(testRoleUndefinedDescription)).to.not.be.rejected,
-  //       expect(Claim.create(testRoleNullDescription)).to.not.be.rejected,
-  //       expect(Claim.create(testRoleEmptyStringDescription)).to.be.rejectedWith(errorMessage),
-  //     ]);
-  //   });
+      // Act / Assert
+      return Promise.all([
+        expect(Claim.create(testClaimUndefinedDescription)).to.not.be.rejected,
+        expect(Claim.create(testClaimNullDescription)).to.not.be.rejected,
+        expect(Claim.create(testClaimEmptyStringDescription)).to.be.rejectedWith(errorMessage),
+      ]);
+    });
 
-  //   it('Requires description to be less than 128 characters', function () {
-  //     // Arrange
-  //     const errorMessage = 'Model Validation: Value for description is too long';
-  //     const descriptionTooLongText = `Lorem ipsum dolor sit amet.
-  //                                     Lorem ipsum dolor sit amet.
-  //                                     Lorem ipsum dolor sit amet.
-  //                                     Lorem ipsum dolor sit amet.
-  //                                     Lorem ipsum dolor sit amet.`;
-  //     const descriptionTooLongCase = {
-  //       name: 'LOCAL_ADMIN',
-  //       description: descriptionTooLongText,
-  //     };
+    it('Requires description to be less than 128 characters', function () {
+      // Arrange
+      const errorMessage = 'Model Validation: Value for description is too long';
+      const descriptionTooLongText = `Lorem ipsum dolor sit amet.
+                                      Lorem ipsum dolor sit amet.
+                                      Lorem ipsum dolor sit amet.
+                                      Lorem ipsum dolor sit amet.
+                                      Lorem ipsum dolor sit amet.`;
+      const descriptionTooLongCase = {
+        name: 'CAN_ACCESS_NUCLEAR_CODES',
+        description: descriptionTooLongText,
+      };
 
-  //     // Act / Assert
-  //     expect(Claim.create(descriptionTooLongCase)).to.be.rejectedWith(errorMessage);
-  //   });
-  // });
+      // Act / Assert
+      expect(Claim.create(descriptionTooLongCase)).to.be.rejectedWith(errorMessage);
+    });
+  });
 });

@@ -7,7 +7,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
 const { sequelize, Role } = require('../../models');
-const { setup } = require('../_setup');
+const { setup } = require('../setup');
 
 const { expect } = chai;
 
@@ -26,7 +26,7 @@ describe('Models Unit Test —> Role', function () {
   });
 
   context('#create({ ... })', function () {
-    it('Creates a new Role testRole that returns testRole', async function () {
+    it('Creates a new Role that returns', async function () {
       // Arrange / Act
       const testRole = await Role.create({
         name: 'TEST_ROLE',
@@ -69,7 +69,7 @@ describe('Models Unit Test —> Role', function () {
         'legal-chars-b': 'LOCAL_ADMIN_2',
       };
       const nameInvalidTestCases = {
-        'illegal-chars-a': 'local admin',
+        'illegal-chars-a': 'LOCAL ADMIN',
         'illegal-chars-b': 'local_admin',
         'illegal-chars-c': 'local-admin-2',
         'illegal-chars-d': 'local$admin$2',

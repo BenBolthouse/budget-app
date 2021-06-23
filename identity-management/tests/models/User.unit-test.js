@@ -7,7 +7,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
 const { sequelize, User } = require('../../models');
-const { setup } = require('../_setup');
+const { setup } = require('../setup');
 
 const { expect } = chai;
 
@@ -26,7 +26,7 @@ describe('Models Unit Test —> User', function () {
   });
 
   context('#create({ ... })', function () {
-    it('Creates a new User testUser that returns testUser', async function () {
+    it('Creates a new User that returns', async function () {
       // Arrange / Act
       const testUser = await User.create({
         firstName: 'John',
