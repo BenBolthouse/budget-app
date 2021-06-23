@@ -16,6 +16,7 @@ module.exports = {
     host: process.env.SERVICE_HOST,
     name: process.env.SERVICE_NAME,
     port: process.env.SERVICE_PORT,
+    schema: process.env.SERVICE_SCHEMA,
     version: process.env.SERVICE_VERSION,
   },
   isProduction: process.env.ENVIRONMENT === 'production',

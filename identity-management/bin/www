@@ -4,6 +4,8 @@ const app = require('..');
 const config = require('../config');
 const { logger } = require('../config/logger');
 
-app.listen(config.express.port, () => {
-  logger.info(`Express is running on ${config.express.host}${config.express.port}`);
+const serviceUrl = `${config.service.schema}://${config.service.host}`;
+
+const listener = app.listen(config.service.port || 0, () => {
+  logger.info(`Express is running on ${serviceUrl}:${listener.address().port}`);
 });
