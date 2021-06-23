@@ -1,11 +1,17 @@
-const { DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 const { logger } = require('../config/logger');
-const { sequelize: sequelizeTest } = require('../models');
+const { sequelize } = require('../models');
 const config = require('../config');
-const sequelizeAdmin = require('./_sequelize');
+
+const sequelizeAdmin = new Sequelize('postgres', config.database.username, config.database.password, {
+  dialect: 'postgres',
+  logging: () => null,
+});
+
 const usersTableMigration = require('../migrations/00001-create-users-table');
 const rolesTableMigration = require('../migrations/00002-create-roles-table');
+const claimsTableMigration = require('../migrations/00003-create-claims-table');
 
 let setupHasRun = false;
 
@@ -13,7 +19,7 @@ async function setup() {
   if (setupHasRun) return logger.info('Setup already complete, skipping...');
 
   const adminQueryInterface = sequelizeAdmin.getQueryInterface();
-  const testQueryInterface = sequelizeTest.getQueryInterface();
+  const testQueryInterface = sequelize.getQueryInterface();
   const databaseName = config.database.name;
 
   // The following will initially try to drop the database if it exists.
@@ -50,6 +56,7 @@ async function setup() {
 
     await usersTableMigration.up(testQueryInterface, DataTypes);
     await rolesTableMigration.up(testQueryInterface, DataTypes);
+    await claimsTableMigration.up(testQueryInterface, DataTypes);
 
     logger.info('Migrations complete.');
   }
@@ -61,7 +68,7 @@ async function setup() {
   // database twice or run migrations twice.
   setupHasRun = true;
 
-  return testQueryInterface;
+  return true;
 }
 
-module.exports = setup;
+module.exports = { setup };
