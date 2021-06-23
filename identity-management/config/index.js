@@ -7,7 +7,10 @@ module.exports = {
     host: process.env.DATABASE_HOST,
     name: process.env.DATABASE_NAME,
     password: process.env.DATABASE_PASSWORD,
-    user: process.env.DATABASE_USER,
+    username: process.env.DATABASE_USER,
+  },
+  sequelize: {
+    logging: process.env.SEQUELIZE_LOGGING,
   },
   service: {
     host: process.env.SERVICE_HOST,
