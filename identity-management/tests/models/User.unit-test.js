@@ -6,9 +6,8 @@ const { before, afterEach } = require('mocha');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-const { sequelize } = require('../models');
-const { user } = require('../models');
-const setup = require('./_setup');
+const { sequelize, User } = require('../../models');
+const { setup } = require('../_setup');
 
 const { expect } = chai;
 
@@ -21,15 +20,15 @@ before(async function () {
   await setup();
 });
 
-describe('Unit Test: models.user', function () {
+describe('Models Unit Test —> User', function () {
   afterEach(async function () {
-    queryInterface.bulkDelete('users', {});
+    queryInterface.bulkDelete('Users', {});
   });
 
-  context('#create(user)', function () {
+  context('#create({ ... })', function () {
     it('Creates a new User testUser that returns testUser', async function () {
       // Arrange / Act
-      const testUser = await user.create({
+      const testUser = await User.create({
         firstName: 'John',
         lastName: 'Doe',
         username: 'jdoe',
@@ -40,7 +39,7 @@ describe('Unit Test: models.user', function () {
     });
   });
 
-  context('#firstName', function () {
+  context('#create({ firstName, ... })', function () {
     it('Requires firstName to not be undefined, null or an empty string', async function () {
       // Arrange
       const errorMessage = 'Model Validation: firstName cannot be null, undefined or an empty string';
@@ -62,9 +61,9 @@ describe('Unit Test: models.user', function () {
 
       // Act / Assert
       return Promise.all([
-        expect(user.create(testUserUndefinedFirstName)).to.be.rejectedWith(errorMessage),
-        expect(user.create(testUserNullFirstName)).to.be.rejectedWith(errorMessage),
-        expect(user.create(testUserEmptyStringFirstName)).to.be.rejectedWith(errorMessage),
+        expect(User.create(testUserUndefinedFirstName)).to.be.rejectedWith(errorMessage),
+        expect(User.create(testUserNullFirstName)).to.be.rejectedWith(errorMessage),
+        expect(User.create(testUserEmptyStringFirstName)).to.be.rejectedWith(errorMessage),
       ]);
     });
 
@@ -93,7 +92,7 @@ describe('Unit Test: models.user', function () {
           lastName: 'Doe',
           username: `jdoe1${i}`,
         };
-        testCollection.push(expect(user.create(caseTestUser)).to.not.be.rejected);
+        testCollection.push(expect(User.create(caseTestUser)).to.not.be.rejected);
       });
       Object.values(firstNameInvalidTestCases).forEach((testCase, i) => {
         const caseTestUser = {
@@ -101,7 +100,7 @@ describe('Unit Test: models.user', function () {
           lastName: 'Doe',
           username: `jdoe2${i}`,
         };
-        testCollection.push(expect(user.create(caseTestUser)).to.be.rejectedWith(errorMessage));
+        testCollection.push(expect(User.create(caseTestUser)).to.be.rejectedWith(errorMessage));
       });
 
       // Assert
@@ -109,7 +108,7 @@ describe('Unit Test: models.user', function () {
     });
   });
 
-  context('#lastName', function () {
+  context('#create({ lastName, ... })', function () {
     it('Requires lastName to not be undefined, null or an empty string', async function () {
       // Arrange
       const errorMessage = 'Model Validation: lastName cannot be null, undefined or an empty string';
@@ -131,9 +130,9 @@ describe('Unit Test: models.user', function () {
 
       // Act / Assert
       return Promise.all([
-        expect(user.create(testUserUndefinedLastName)).to.be.rejectedWith(errorMessage),
-        expect(user.create(testUserNullLastName)).to.be.rejectedWith(errorMessage),
-        expect(user.create(testUserEmptyStringLastName)).to.be.rejectedWith(errorMessage),
+        expect(User.create(testUserUndefinedLastName)).to.be.rejectedWith(errorMessage),
+        expect(User.create(testUserNullLastName)).to.be.rejectedWith(errorMessage),
+        expect(User.create(testUserEmptyStringLastName)).to.be.rejectedWith(errorMessage),
       ]);
     });
 
@@ -162,7 +161,7 @@ describe('Unit Test: models.user', function () {
           lastName: testCase,
           username: `jdoe1${i}`,
         };
-        testCollection.push(expect(user.create(caseTestUser)).to.not.be.rejected);
+        testCollection.push(expect(User.create(caseTestUser)).to.not.be.rejected);
       });
       Object.values(lastNameInvalidTestCases).forEach((testCase, i) => {
         const caseTestUser = {
@@ -170,7 +169,7 @@ describe('Unit Test: models.user', function () {
           lastName: testCase,
           username: `jdoe2${i}`,
         };
-        testCollection.push(expect(user.create(caseTestUser)).to.be.rejectedWith(errorMessage));
+        testCollection.push(expect(User.create(caseTestUser)).to.be.rejectedWith(errorMessage));
       });
 
       // Assert
@@ -178,7 +177,7 @@ describe('Unit Test: models.user', function () {
     });
   });
 
-  context('#username', function () {
+  context('#create({ username, ... })', function () {
     it('Allows username to be undefined or null but not an empty string', async function () {
       // Arrange
       const errorMessage = 'Model Validation: username cannot be an empty string';
@@ -200,9 +199,9 @@ describe('Unit Test: models.user', function () {
 
       // Act / Assert
       return Promise.all([
-        expect(user.create(testUserUndefinedUsername)).to.not.be.rejected,
-        expect(user.create(testUserNullUsername)).to.not.be.rejected,
-        expect(user.create(testUserEmptyStringUsername)).to.be.rejectedWith(errorMessage),
+        expect(User.create(testUserUndefinedUsername)).to.not.be.rejected,
+        expect(User.create(testUserNullUsername)).to.not.be.rejected,
+        expect(User.create(testUserEmptyStringUsername)).to.be.rejectedWith(errorMessage),
       ]);
     });
 
@@ -232,7 +231,7 @@ describe('Unit Test: models.user', function () {
           lastName: 'Doe',
           username: testCase,
         };
-        testCollection.push(expect(user.create(caseTestUser)).to.not.be.rejected);
+        testCollection.push(expect(User.create(caseTestUser)).to.not.be.rejected);
       });
       Object.values(lastNameInvalidTestCases).forEach((testCase) => {
         const caseTestUser = {
@@ -240,7 +239,7 @@ describe('Unit Test: models.user', function () {
           lastName: 'Doe',
           username: testCase,
         };
-        testCollection.push(expect(user.create(caseTestUser)).to.be.rejectedWith(errorMessage));
+        testCollection.push(expect(User.create(caseTestUser)).to.be.rejectedWith(errorMessage));
       });
 
       // Assert

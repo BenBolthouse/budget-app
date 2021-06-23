@@ -6,9 +6,8 @@ const { before, afterEach } = require('mocha');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
-const { sequelize } = require('../models');
-const { role } = require('../models');
-const setup = require('./_setup');
+const { sequelize, Role } = require('../../models');
+const { setup } = require('../_setup');
 
 const { expect } = chai;
 
@@ -21,15 +20,15 @@ before(async function () {
   await setup();
 });
 
-describe('Unit Test: models.role', function () {
+describe('Models Unit Test —> Role', function () {
   afterEach(async function () {
-    queryInterface.bulkDelete('roles', {});
+    queryInterface.bulkDelete('Roles', {});
   });
 
-  context('#create(role)', function () {
+  context('#create({ ... })', function () {
     it('Creates a new Role testRole that returns testRole', async function () {
       // Arrange / Act
-      const testRole = await role.create({
+      const testRole = await Role.create({
         name: 'TEST_ROLE',
         description: 'This is a test role',
       });
@@ -39,7 +38,7 @@ describe('Unit Test: models.role', function () {
     });
   });
 
-  context('#name', function () {
+  context('#create({ name, ... })', function () {
     it('Requires name to not be undefined, null or an empty string', async function () {
       // Arrange
       const errorMessage = 'Model Validation: name cannot be null, undefined or an empty string';
@@ -55,13 +54,13 @@ describe('Unit Test: models.role', function () {
 
       // Act / Assert
       return Promise.all([
-        expect(role.create(testRoleUndefinedName)).to.be.rejectedWith(errorMessage),
-        expect(role.create(testRoleNullName)).to.be.rejectedWith(errorMessage),
-        expect(role.create(testRoleEmptyStringName)).to.be.rejectedWith(errorMessage),
+        expect(Role.create(testRoleUndefinedName)).to.be.rejectedWith(errorMessage),
+        expect(Role.create(testRoleNullName)).to.be.rejectedWith(errorMessage),
+        expect(Role.create(testRoleEmptyStringName)).to.be.rejectedWith(errorMessage),
       ]);
     });
 
-    it('Requires name to match /^([A-Z0-9_]){4,24}$/', function () {
+    it('Requires name to match /^([A-Z0-9_]){4,64}$/', function () {
       // Arrange
       const errorMessage = 'Model Validation: Value for name did not match regex';
       const testCollection = [];
@@ -74,17 +73,18 @@ describe('Unit Test: models.role', function () {
         'illegal-chars-b': 'local_admin',
         'illegal-chars-c': 'local-admin-2',
         'illegal-chars-d': 'local$admin$2',
-        'too-long': 'LOCAL_LOCAL_LOCAL_LOCAL_LOCAL_ADMIN',
+        'too-short': 'GUY',
+        'too-long': 'CODES_CODES_CODES_CODES_CODES_CODES_CODES_CODES_CODES_CODES_EVERYWHERE',
       };
 
       // Act
       Object.values(nameValidTestCases).forEach((testCase) => {
         const caseTestUser = { name: testCase };
-        testCollection.push(expect(role.create(caseTestUser)).to.not.be.rejected);
+        testCollection.push(expect(Role.create(caseTestUser)).to.not.be.rejected);
       });
       Object.values(nameInvalidTestCases).forEach((testCase) => {
         const caseTestUser = { name: testCase };
-        testCollection.push(expect(role.create(caseTestUser)).to.be.rejectedWith(errorMessage));
+        testCollection.push(expect(Role.create(caseTestUser)).to.be.rejectedWith(errorMessage));
       });
 
       // Assert
@@ -92,7 +92,7 @@ describe('Unit Test: models.role', function () {
     });
   });
 
-  context('#description', function () {
+  context('#create({ description, ... })', function () {
     it('Allows description to be undefined or null but not an empty string', async function () {
       // Arrange
       const errorMessage = 'Model Validation: description cannot be an empty string';
@@ -111,9 +111,9 @@ describe('Unit Test: models.role', function () {
 
       // Act / Assert
       return Promise.all([
-        expect(role.create(testRoleUndefinedDescription)).to.not.be.rejected,
-        expect(role.create(testRoleNullDescription)).to.not.be.rejected,
-        expect(role.create(testRoleEmptyStringDescription)).to.be.rejectedWith(errorMessage),
+        expect(Role.create(testRoleUndefinedDescription)).to.not.be.rejected,
+        expect(Role.create(testRoleNullDescription)).to.not.be.rejected,
+        expect(Role.create(testRoleEmptyStringDescription)).to.be.rejectedWith(errorMessage),
       ]);
     });
 
@@ -131,7 +131,7 @@ describe('Unit Test: models.role', function () {
       };
 
       // Act / Assert
-      expect(role.create(descriptionTooLongCase)).to.be.rejectedWith(errorMessage);
+      expect(Role.create(descriptionTooLongCase)).to.be.rejectedWith(errorMessage);
     });
   });
 });
