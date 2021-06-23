@@ -5,7 +5,7 @@
   "main": "bin/wwww",
   "scripts": {
     "start-dev": "nodemon -r dotenv/config ./bin/www dotenv_config_path=./env/.development.env",
-    "test": "npx dotenv -e ./env/.test.env -- mocha ./tests"
+    "test": "npx dotenv -e ./env/.test.env -- mocha ./tests/**"
   },
   "author": "Ben Bolthouse",
   "license": "ISC",
