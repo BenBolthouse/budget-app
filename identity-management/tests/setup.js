@@ -12,6 +12,7 @@ const sequelizeAdmin = new Sequelize('postgres', config.database.username, confi
 const usersTableMigration = require('../migrations/00001-create-users-table');
 const rolesTableMigration = require('../migrations/00002-create-roles-table');
 const claimsTableMigration = require('../migrations/00003-create-claims-table');
+const addressesTableMigration = require('../migrations/00004-create-addresses-table');
 
 let setupHasRun = false;
 
@@ -57,6 +58,7 @@ async function setup() {
     await usersTableMigration.up(testQueryInterface, DataTypes);
     await rolesTableMigration.up(testQueryInterface, DataTypes);
     await claimsTableMigration.up(testQueryInterface, DataTypes);
+    await addressesTableMigration.up(testQueryInterface, DataTypes);
 
     logger.info('Migrations complete.');
   }
